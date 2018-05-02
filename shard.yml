@@ -1,0 +1,9 @@
+name: hqtrivia
+version: 0.1.0
+
+authors:
+  - Taylor Finnell <tmfinnell@gmail.com>
+
+crystal: 0.24.2
+
+license: MIT
