@@ -1,3 +1,4 @@
+require "./int_coerce"
 require "json"
 
 module HqTrivia
@@ -8,10 +9,10 @@ module HqTrivia
 
       JSON.mapping({
         type:        String,
-        ts:          String,
-        question_id: {key: "questionId", type: String},
+        ts:          Time,
+        question_id: {key: "questionId", type: Int32, converter: IntCoerce},
         c:           Int32,
-        sent:        String,
+        sent:        Time,
       })
     end
   end

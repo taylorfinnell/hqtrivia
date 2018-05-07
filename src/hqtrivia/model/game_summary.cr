@@ -7,13 +7,13 @@ module HqTrivia
 
       JSON.mapping({
         type:        String,
-        ts:          String,
+        ts:          Time,
         show_id:     {key: "showId", type: Int32},
         winners:     Array(Winner),
         num_winners: {key: "numWinners", type: Int32},
         you_won:     {key: "youWon", type: Bool},
         c:           Int32,
-        sent:        String,
+        sent:        Time,
       })
 
       class Winner

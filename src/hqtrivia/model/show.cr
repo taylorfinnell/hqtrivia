@@ -12,6 +12,10 @@ module HqTrivia
         prize:      Int32?,
       })
 
+      def initialize(@active : Bool, @show_id : Int32?, @start_time : Time?,
+                     @prize : Int32)
+      end
+
       def socket_url
         @broadcast.try &.socket_url
       end

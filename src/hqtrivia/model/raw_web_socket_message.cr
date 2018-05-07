@@ -8,29 +8,15 @@ module HqTrivia
         type: String,
       })
 
-      def self.decode(json)
-        msg = from_json(json)
-        case msg.type
-        when "broadcastEnded"
-          BroadcastEnded.from_json(json)
-        when "broadcastStats"
-          BroadcastStats.from_json(json)
-        when "gameSummary"
-          GameSummary.from_json(json)
-        when "interaction"
-          Interaction.from_json(json)
-        when "postGame"
-          PostGame.from_json(json)
-        when "question"
-          Question.from_json(json)
-        when "questionClosed"
-          QuestionClosed.from_json(json)
-        when "questionFinished"
-          QuestionFinished.from_json(json)
-        when "questionSummary"
-          QuestionSummary.from_json(json)
+      macro decode(json)
+        decoded = {{@type}}.from_json({{json}})
+        case decoded.type
+        {% for msg, index in Model::MessageTypes.constant("MESSAGE_LIST") %}
+        when {{msg}}
+          Model::{{msg.camelcase.id}}.from_json({{json}})
+        {% end %}
         else
-          UnknownMessage.new(json)
+          Model::UnknownMessage.new({{json}})
         end
       end
     end

@@ -7,11 +7,11 @@ module HqTrivia
 
       JSON.mapping({
         type:     String,
-        ts:       String,
+        ts:       Time,
         item_id:  {key: "itemId", type: String},
         user_id:  {key: "userId", type: Int32},
         metadata: Metadata,
-        sent:     String,
+        sent:     Time,
       })
 
       class Metadata

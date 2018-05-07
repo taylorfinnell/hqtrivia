@@ -8,7 +8,7 @@ module HqTrivia
 
       JSON.mapping({
         type:                     String,
-        ts:                       String,
+        ts:                       Time,
         question_id:              {key: "questionId", type: Int32},
         question:                 String,
         answers:                  {key: "answerCounts", type: Array(Answer)},
@@ -19,7 +19,7 @@ module HqTrivia
         saved_by_extra_life:      {key: "savedByExtraLife", type: Bool},
         extra_lives_remaining:    {key: "extraLivesRemaining", type: Int32},
         c:                        Int32,
-        sent:                     String,
+        sent:                     Time,
       })
 
       class Answer

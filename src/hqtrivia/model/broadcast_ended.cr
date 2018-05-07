@@ -7,9 +7,9 @@ module HqTrivia
 
       JSON.mapping({
         type:   String,
-        ts:     String,
+        ts:     Time,
         reason: String?,
-        sent:   String,
+        sent:   Time,
       })
     end
   end

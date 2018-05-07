@@ -13,13 +13,17 @@ module HqTrivia
         @on_message_callback = block
       end
 
+      def on_raw_message(&block : String ->)
+        @on_raw_message_callback = block
+      end
+
       # Yields a `Model::Show` if a show is active, otherwise nil
       def on_show(&block : HqTrivia::Model::Show? ->)
         @on_show = block
       end
 
       # Connects to the HQ websocket
-      def connect(blocking = true)
+      def connect(blocking = true, record_network = false)
         while show = current_show
           @on_show.try &.call show
 
@@ -29,21 +33,22 @@ module HqTrivia
           sleep 5
         end
 
-        open_socket(show) if show.active
+        open_socket(show, record_network) if show.active
       end
 
-      private def open_socket(show)
+      private def open_socket(show, record_network)
         HqTrivia.logger.debug("Connecting...")
 
-        recorder = MessageRecorder.new(show.show_id.not_nil!)
         socket = HTTP::WebSocket.new(show.socket_url.not_nil!, headers: websocket_headers)
+
+        HqTrivia.logger.debug("Connected...")
 
         socket.on_close do
           connect(false) # don't block, either the game is still active or it is not
         end
 
         socket.on_message do |json|
-          recorder.record(json)
+          @on_raw_message_callback.try &.call json
           @on_message_callback.try &.call Model::RawWebSocketMessage.decode(json)
         end
 
@@ -68,7 +73,7 @@ module HqTrivia
       end
 
       private def authorization_token
-        ENV.fetch("AUTHORIZATION_TOKEN")
+        ENV["AUTHORIZATION_TOKEN"]?
       end
 
       private def websocket_headers

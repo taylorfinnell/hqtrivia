@@ -7,14 +7,13 @@ module HqTrivia
 
       JSON.mapping({
         type:           String,
-        ts:             String,
+        ts:             Time,
         status_message: {key: "statusMessage", type: String},
         viewer_counts:  {key: "viewerCounts", type: ViewerCounts},
         c:              Int32,
-        sent:           String,
+        sent:           Time,
       })
 
-      # :nodoc:
       class ViewerCounts
         JSON.mapping({
           connected: Int32,
