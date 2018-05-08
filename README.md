@@ -36,7 +36,7 @@ class WordFrequencyBot
   end
 end
 
-bot = ChatWordCountBot.new
+bot = WordFrequencyBot.new
 bot.play # blocks until there is an active show, pass false to #play for non blocking
 ```
 
