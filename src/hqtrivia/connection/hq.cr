@@ -59,7 +59,11 @@ module HqTrivia
       end
 
       private def current_show
-        retryable(on: HttpException, tries: 5, sleep: 1) do
+        connection_failed = ->(ex : Exception) do
+          HqTrivia.logger.debug("Connection to HQ server failed...retrying. #{ex}")
+        end
+
+        retryable(on: HttpException, tries: 5, sleep: 1, callback: connection_failed) do
           resp = HTTP::Client.get(current_show_url, headers: authorization_header)
 
           if (200..299).includes?(resp.status_code)
