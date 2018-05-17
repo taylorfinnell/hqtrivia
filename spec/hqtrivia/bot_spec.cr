@@ -21,7 +21,8 @@ module HqTrivia
   describe Bot do
     it "works" do
       messages = File.read("./spec/data/fullgame").each_line.to_a
-      connection = Connection::Local.new(messages)
+      show = Model::Show.new(active: true, prize: 100, show_id: 666, start_time: Time.now)
+      connection = Connection::Local.new(messages, show)
 
       bot = MyBot.new
       bot.play(connection)
