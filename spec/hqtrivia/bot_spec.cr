@@ -28,6 +28,9 @@ module HqTrivia
       bot.play(connection)
 
       bot.words.values.max.should eq(328)
+      bot.start_time.should eq(show.start_time)
+      bot.show_id.should eq(show.show_id)
+      bot.prize.should eq(show.prize)
     end
   end
 end
