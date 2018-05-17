@@ -8,6 +8,9 @@ module HqTrivia
     class Hq
       include Interface
 
+      class HttpException < Exception
+      end
+
       # Yields a `Model::WebSocketMessage`
       def on_message(&block : HqTrivia::Model::WebSocketMessage ->)
         @on_message_callback = block
@@ -56,11 +59,14 @@ module HqTrivia
       end
 
       private def current_show
-        resp = HTTP::Client.get(current_show_url, headers: authorization_header)
-        if (200..299).includes?(resp.status_code)
-          Model::Show.from_json(resp.body)
-        else
-          raise "http error: #{resp.body} (#{resp.status_code})"
+        retryable(on: HttpException, tries: 5, sleep: 1) do
+          resp = HTTP::Client.get(current_show_url, headers: authorization_header)
+
+          if (200..299).includes?(resp.status_code)
+            Model::Show.from_json(resp.body)
+          else
+            raise HttpException.new("#{resp.body} (#{resp.status_code})")
+          end
         end
       end
 
