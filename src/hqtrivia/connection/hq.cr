@@ -1,5 +1,6 @@
 require "http/client"
 require "http/web_socket"
+require "retrycr"
 
 module HqTrivia
   module Connection
@@ -7,6 +8,9 @@ module HqTrivia
     # messages to the bot.
     class Hq
       include Interface
+
+      class HttpException < Exception
+      end
 
       # Yields a `Model::WebSocketMessage`
       def on_message(&block : HqTrivia::Model::WebSocketMessage ->)
@@ -56,11 +60,18 @@ module HqTrivia
       end
 
       private def current_show
-        resp = HTTP::Client.get(current_show_url, headers: authorization_header)
-        if (200..299).includes?(resp.status_code)
-          Model::Show.from_json(resp.body)
-        else
-          raise "http error: #{resp.body} (#{resp.status_code})"
+        connection_failed = ->(ex : Exception) do
+          HqTrivia.logger.debug("Connection to HQ server failed...retrying. #{ex}")
+        end
+
+        retryable(on: HttpException | Socket::Error, tries: 5, wait: 1, callback: connection_failed) do
+          resp = HTTP::Client.get(current_show_url, headers: authorization_header)
+
+          if (200..299).includes?(resp.status_code)
+            Model::Show.from_json(resp.body)
+          else
+            raise HttpException.new("#{resp.body} (#{resp.status_code})")
+          end
         end
       end
 

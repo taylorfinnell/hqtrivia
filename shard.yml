@@ -7,3 +7,7 @@ authors:
 crystal: 0.24.2
 
 license: MIT
+
+dependencies:
+  retrycr:
+    github: taylorfinnell/retrycr

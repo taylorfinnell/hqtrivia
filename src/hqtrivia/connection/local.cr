@@ -3,7 +3,7 @@ module HqTrivia
     class Local
       include Interface
 
-      def initialize(@raw_messages : Array(String))
+      def initialize(@raw_messages : Array(String), @show : Model::Show)
       end
 
       def on_message(&block : HqTrivia::Model::WebSocketMessage ->)
@@ -19,7 +19,7 @@ module HqTrivia
       end
 
       def connect(blocking = true, record_network = false)
-        @on_show.try &.call Model::Show.new(active: true, prize: 100, show_id: 666, start_time: Time.now)
+        @on_show.try &.call @show
 
         @raw_messages.each do |msg|
           @on_raw_message_callback.try &.call msg
