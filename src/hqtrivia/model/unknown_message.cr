@@ -4,9 +4,14 @@ module HqTrivia
     class UnknownMessage
       include WebSocketMessage
 
-      getter json
+      getter json, sent
 
-      def initialize(@json : String)
+      def initialize(@json : String, @sent : Time)
+        @sent = @sent.to_utc
+      end
+
+      def to_json
+        @json
       end
     end
   end
