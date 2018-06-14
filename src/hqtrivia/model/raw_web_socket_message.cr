@@ -16,7 +16,7 @@ module HqTrivia
           Model::{{msg.camelcase.id}}.from_json({{json}})
         {% end %}
         else
-          Model::UnknownMessage.new({{json}})
+          Model::UnknownMessage.new({{json}}, Time.utc_now)
         end
       end
     end
