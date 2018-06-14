@@ -8,6 +8,10 @@ module HqTrivia
 
       def initialize(@json : String, @sent : Time)
       end
+
+      def to_json
+        @json
+      end
     end
   end
 end
