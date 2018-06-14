@@ -7,6 +7,7 @@ module HqTrivia
       getter json, sent
 
       def initialize(@json : String, @sent : Time)
+        @sent = @sent.to_utc
       end
 
       def to_json
