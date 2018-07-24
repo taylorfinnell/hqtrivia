@@ -24,7 +24,8 @@ class WordFrequencyBot
 
   getter words
 
-  def initialize
+  def initialize(@show : HqTrivia::Model::Show, @coordinator : HqTrivia::Coordinator)
+    super
     @words = {} of String => Int32
   end
 
@@ -36,8 +37,12 @@ class WordFrequencyBot
   end
 end
 
-bot = WordFrequencyBot.new
-bot.play # blocks until there is an active show, pass false to #play for non blocking
+coordinator = HqTrivia::HqCoordinator.new("us")
+HqTrivia.on_show(coordinator) do |show|
+  bot = WordFrequencyBot.new(show, coordinator)
+
+  bot.play
+end
 ```
 
 Other messages that can be handled include

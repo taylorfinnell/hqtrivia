@@ -10,13 +10,16 @@ module HqTrivia
         start_time: {type: Time?, key: "startTime"},
         broadcast:  Broadcast?,
         prize:      Int32?,
+        show_type:  {type: String?, key: "showType"},
       })
 
       def initialize(@active : Bool, @show_id : Int32?, @start_time : Time?,
-                     @prize : Int32)
+                     @prize : Int32, @show_type : String?)
       end
 
       def socket_url
+        raise "Show not active" unless @active
+
         @broadcast.try &.socket_url
       end
     end
