@@ -16,9 +16,17 @@ module HqTrivia
           break
         else
           HqTrivia.logger.debug("#{self.class.name}: No active '#{@coordinator.country}' show")
-          sleep 5
+          wait
         end
       end
+    end
+
+    private def wait
+      sleep sleep_time
+    end
+
+    private def sleep_time
+      (ENV["HQ_SHOW_COORDINATOR_SLEEP_TIME"]? || 1.minute).to_i
     end
   end
 end
