@@ -19,7 +19,7 @@ module HqTrivia
           user_id:     {key: "userId", type: Int32},
           message:     String,
           avatar_url:  {key: "avatarUrl", type: String?},
-          interaction: String,
+          interaction: String?,
           username:    String,
         })
       end
