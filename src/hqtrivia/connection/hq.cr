@@ -9,6 +9,9 @@ module HqTrivia
     class Hq
       include Interface
 
+      def initialize(@raw_messages_only = false)
+      end
+
       # Yields a `Model::WebSocketMessage`
       def on_message(&block : HqTrivia::Model::WebSocketMessage ->)
         @on_message_callback = block
@@ -40,7 +43,10 @@ module HqTrivia
 
         socket.on_message do |json|
           @on_raw_message_callback.try &.call json
-          @on_message_callback.try &.call Model::RawWebSocketMessage.decode(json)
+
+          if @raw_messages_only == false
+            @on_message_callback.try &.call Model::RawWebSocketMessage.decode(json)
+          end
         end
 
         socket.run
