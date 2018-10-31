@@ -14,6 +14,8 @@ module HqTrivia
       retryable(on: HttpException | Socket::Error, tries: 5, wait: 1, callback: connection_failed) do
         resp = HTTP::Client.get("https://api-quiz.hype.space/shows/now?type=hq", headers: HqTrivia.auth.header(@country))
 
+        HqTrivia.logger.debug("#{self.class.name} http response for #{@country}: #{resp.body}")
+
         if (200..299).includes?(resp.status_code)
           Model::Show.from_json(resp.body)
         elsif resp.status_code == 401
