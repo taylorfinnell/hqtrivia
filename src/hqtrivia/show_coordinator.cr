@@ -10,7 +10,7 @@ module HqTrivia
       while show = @coordinator.current_show
         HqTrivia.logger.debug("Show: #{show.to_json}")
 
-        if show.active
+        if show.active && (@coordinator.game_type.nil? || @coordinator.game_type == show.game_type)
           return yield show
         elsif !blocking
           break

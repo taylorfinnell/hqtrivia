@@ -1,11 +1,11 @@
 module HqTrivia
   class LocalCoordinator < Coordinator
-    def initialize(@country : String, @active = false)
-    end
+    @show : Model::Show?
+
+    property show
 
     def current_show
-      Model::Show.new(active: @active, show_id: 123,
-        start_time: Time.utc_now, prize: 666, show_type: "hq-us")
+      @show
     end
   end
 end
