@@ -35,6 +35,12 @@ module HqTrivia
       @show.prize
     end
 
+    # The type of game, currently "trivia" or "words"
+    def game_type
+      @coordinator.game_type
+    end
+
+    # The country that is playing this game
     def country
       @coordinator.country
     end
