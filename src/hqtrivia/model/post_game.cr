@@ -3,7 +3,8 @@ require "json"
 
 module HqTrivia
   module Model
-    # Sent from the server once the game has fully ended.
+    # Sent from the server once the game has fully ended. Used in both Trivia
+    # and Words
     class PostGame
       include WebSocketMessage
 

@@ -1,7 +1,7 @@
 module HqTrivia
   module Model
     # Sent from the server when a user intercts with the game, for instance a
-    # chat message.
+    # chat message. Used in both Trivia and Words
     class Interaction
       include WebSocketMessage
 
@@ -14,6 +14,7 @@ module HqTrivia
         sent:     Time,
       })
 
+      # User metadata
       class Metadata
         JSON.mapping({
           user_id:     {key: "userId", type: Int32},

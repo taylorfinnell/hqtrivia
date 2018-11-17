@@ -1,6 +1,6 @@
 # hqtrivia
 
-A small framework for building HQ Trivia bots.
+A small framework for building HQ Trivia and HQ Words bots.
 
 ## Installation
 
@@ -45,19 +45,30 @@ HqTrivia.on_show(coordinator) do |show|
 end
 ```
 
-Other messages that can be handled include
+**HQ Trivia Messagges**
 
 - `HqTriva::Model::Question`
 - `HqTriva::Model::QuestionSummary`
-- `HqTriva::Model::QuestionClosed`
 - `HqTriva::Model::QuestionFinished`
+- `HqTriva::Model::GameSummary`
+
+**HQ Words Messaegs**
+
+- `HqTriva::Model::ShowWheel`
+- `HqTriva::Model::HideWheel`
+- `HqTriva::Model::StartRound`
+- `HqTriva::Model::EndRound`
+- `HqTriva::Model::WordsGameResult`
+
+**Shared Messages**
+
+- `HqTriva::Model::QuestionClosed`
 - `HqTriva::Model::PostGame`
 - `HqTriva::Model::Interaction`
-- `HqTriva::Model::GameSummary`
+- `HqTriva::Model::UnknownMessage`
 - `HqTriva::Model::BroadcastStats`
 - `HqTriva::Model::BroadcastEnded`
-- `HqTriva::Model::UnknownMessage`
-
+- `HqTriva::Model::Kicked`
 
 ## Contributors
 

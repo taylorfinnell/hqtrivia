@@ -6,6 +6,7 @@ module HqTrivia
     def initialize(@show : HqTrivia::Model::Show, @coordinator : Coordinator)
     end
 
+    # Play the game on the given *connection*
     def play(connection = HqTrivia::Connection::Hq.new)
       HqTrivia.logger.debug("Bot playing #{@coordinator.country} show #{@show.to_json}")
 
@@ -50,9 +51,11 @@ module HqTrivia
       end
     {% end %}
 
+    # Called when an unknown message is seen
     protected def handle_message(message : Model::UnknownMessage)
     end
 
+    # Called with raw JSON
     protected def handle_message(message : String)
     end
   end

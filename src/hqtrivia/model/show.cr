@@ -18,6 +18,7 @@ module HqTrivia
                      @prize : Int32, @show_type : String?, @game_type : String? = nil)
       end
 
+      # Socket url if show is active, raises if show is not active
       def socket_url
         raise "Show not active" unless @active
 
@@ -25,6 +26,7 @@ module HqTrivia
       end
     end
 
+    # Broadcast information for a show
     class Broadcast
       JSON.mapping({
         socket_url: {type: String, key: "socketUrl"},

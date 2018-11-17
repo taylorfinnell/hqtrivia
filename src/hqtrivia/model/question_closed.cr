@@ -11,6 +11,7 @@ module HqTrivia
         type:        String,
         ts:          Time,
         question_id: {key: "questionId", type: Int32, converter: IntCoerce},
+        round_id:    {key: "roundId", type: Int32?, converter: IntCoerce},
         c:           Int32,
         sent:        Time,
       })

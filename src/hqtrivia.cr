@@ -1,8 +1,11 @@
 require "./hqtrivia/*"
 
+# Framework for creating HQ Trivia and HQ Words bots
 module HqTrivia
   # :nodoc:
   @@LOGGER = Logger.new
+
+  # :nodoc:
   @@AUTH = Auth.new
 
   # HqTrivia logging instance
@@ -10,14 +13,17 @@ module HqTrivia
     @@LOGGER
   end
 
+  # Set the logger to an IO
   def self.logger=(logger)
     @@LOGGER = logger
   end
 
+  # Auth singleton
   def self.auth
     @@AUTH
   end
 
+  # When an active `Show` is seen, it's yielded to the block
   def self.on_show(coordinator : Coordinator, blocking = true, &block : Model::Show ->)
     show_coordinator = ShowCoordinator.new(coordinator)
     show_coordinator.on_show(blocking, &block)

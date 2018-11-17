@@ -1,7 +1,7 @@
 module HqTrivia
   module Model
     # Sent from the server containing various statistics about the broadcast at
-    # that point in time.
+    # that point in time. Used in both Trivia and Words
     class BroadcastStats
       include WebSocketMessage
 
@@ -14,6 +14,7 @@ module HqTrivia
         sent:           Time,
       })
 
+      # Information about player counts, etc
       class ViewerCounts
         JSON.mapping({
           connected: Int32,

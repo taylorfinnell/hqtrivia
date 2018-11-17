@@ -17,19 +17,22 @@ module HqTrivia
         @on_message_callback = block
       end
 
+      # Yields raw JSON to the block
       def on_raw_message(&block : String ->)
         @on_raw_message_callback = block
       end
 
       # Connects to the HQ websocket
       def connect(show : Model::Show, coordinator : Coordinator)
-        if coordinator.current_show.active
+        show = coordinator.current_show
+        if show && show.active
           open_socket(show, coordinator)
         else
           HqTrivia.logger.info "Not connecting show (#{coordinator.country}) is no longer active"
         end
       end
 
+      # :nodoc:
       private def open_socket(show, coordinator)
         HqTrivia.logger.debug("Connecting: #{coordinator.country}")
 
@@ -52,6 +55,7 @@ module HqTrivia
         socket.run
       end
 
+      # :nodoc:
       private def websocket_headers(coordinator)
         HTTP::Headers{
           "x-hq-client"     => "iOS/1.2.17",
