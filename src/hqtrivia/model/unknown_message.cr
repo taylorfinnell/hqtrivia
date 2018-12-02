@@ -10,6 +10,7 @@ module HqTrivia
         @sent = @sent.to_utc
       end
 
+      # Returns the raw JSON
       def to_json
         @json
       end

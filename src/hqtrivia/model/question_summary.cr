@@ -22,6 +22,7 @@ module HqTrivia
         sent:                     Time,
       })
 
+      # Answer info about the question
       class Answer
         JSON.mapping({
           answer_id: {key: "answerId", type: Int32},

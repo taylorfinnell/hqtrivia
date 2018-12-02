@@ -18,6 +18,33 @@ class MyBot
   end
 end
 
+class WordsBot
+  include HqTrivia::Bot
+
+  getter round_starts
+  getter round_ends
+  getter reveals
+
+  def initialize(@show : HqTrivia::Model::Show, @coordinator : HqTrivia::Coordinator)
+    super
+    @round_starts = 0
+    @round_ends = 0
+    @reveals = 0
+  end
+
+  def handle_message(message : HqTrivia::Model::StartRound)
+    @round_starts += 1
+  end
+
+  def handle_message(message : HqTrivia::Model::EndRound)
+    @round_ends += 1
+  end
+
+  def handle_message(message : HqTrivia::Model::LetterReveal)
+    @reveals += 1
+  end
+end
+
 module HqTrivia
   describe Bot do
     it "works" do
@@ -33,6 +60,19 @@ module HqTrivia
       bot.show_id.should eq(show.show_id)
       bot.prize.should eq(show.prize)
       bot.country.should eq("us")
+    end
+
+    it "works with words" do
+      messages = File.read("./spec/data/words").each_line.to_a
+      show = Model::Show.new(active: true, show_type: "hq-us", game_type: "words", prize: 100, show_id: 666, start_time: Time.now)
+      connection = Connection::Local.new(messages)
+
+      bot = WordsBot.new(show, LocalCoordinator.new("us"))
+      bot.play(connection)
+
+      bot.reveals.should eq(16)
+      bot.round_starts.should eq(8)
+      bot.round_ends.should eq(8)
     end
   end
 end

@@ -16,6 +16,7 @@ module HqTrivia
         sent:        Time,
       })
 
+      # Winner information
       class Winner
         JSON.mapping({
           name:       String,
