@@ -3,10 +3,10 @@ module HqTrivia
   class Auth
     # Given a *country* it returns the bearer token from the ENV
     def header(country : String)
-      country == "us" ? headers_us : header_others
+      country == "us" ? headers_us(country) : header_others(country)
     end
 
-    private def headers_us
+    private def headers_us(country)
       HTTP::Headers{
         "Authorization"    => "Bearer #{token(country)}",
         "x-hq-device"      => "iPhone10,4",
@@ -21,7 +21,7 @@ module HqTrivia
       }
     end
 
-    private def header_others
+    private def header_others(country)
       HTTP::Headers{
         "Authorization"    => "Bearer #{token(country)}",
       }
