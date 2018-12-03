@@ -10,31 +10,11 @@ module HqTrivia
         "accept-language"  => "en-us",
         "x-hq-stk"         => "MQ==",
         "x-hq-deviceclass" => "phone",
-        "x-hq-timezone"    => timezone(country),
+        "x-hq-timezone"    => "America/Chicago",
         "user-agent"       => "HQ-iOS/121 CFNetwork/975.0.3 Darwin/18.2.0",
-        "x-hq-country"     => country(country),
+        "x-hq-country"     => "us",
         "x-hq-lang"        => "en",
       }
-    end
-
-    private def timezone(country : String)
-      case country
-      when "us"
-        "America/Chicago"
-      when "uk"
-        "Europe/London"
-      else
-        raise "Not implemented"
-      end
-    end
-
-    private def country(country : String)
-      case country
-      when "uk"
-        "GB"
-      else
-        country
-      end
     end
 
     # :nodoc:
