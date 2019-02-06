@@ -8,7 +8,7 @@ module HqTrivia
         type:        String,
         show_id:     {key: "showId", type: Int32},
         winners:     Array(Winner),
-        num_winners: {key: "numWinners", type: Int32?},
+        num_winners: {key: "numWinners", type: Int32, nilable: true},
         c:           Int32,
         sent:        Time,
       })
