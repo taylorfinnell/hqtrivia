@@ -24,12 +24,14 @@ class WordsBot
   getter round_starts
   getter round_ends
   getter reveals
+  getter num_winners
 
   def initialize(@show : HqTrivia::Model::Show, @coordinator : HqTrivia::Coordinator)
     super
     @round_starts = 0
     @round_ends = 0
     @reveals = 0
+    @num_winners = 0
   end
 
   def handle_message(message : HqTrivia::Model::StartRound)
@@ -42,6 +44,10 @@ class WordsBot
 
   def handle_message(message : HqTrivia::Model::LetterReveal)
     @reveals += 1
+  end
+
+  def handle_message(message : HqTrivia::Model::WordsGameResult)
+    @num_winners = message.num_winners
   end
 end
 
@@ -70,9 +76,10 @@ module HqTrivia
       bot = WordsBot.new(show, LocalCoordinator.new("us"))
       bot.play(connection)
 
-      bot.reveals.should eq(16)
-      bot.round_starts.should eq(8)
-      bot.round_ends.should eq(8)
+      bot.reveals.should eq(20)
+      bot.round_starts.should eq(10)
+      bot.round_ends.should eq(10)
+      bot.num_winners.should eq(5827)
     end
   end
 end
