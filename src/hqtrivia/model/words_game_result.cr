@@ -5,11 +5,12 @@ module HqTrivia
       include WebSocketMessage
 
       JSON.mapping({
-        type:    String,
-        show_id: {key: "showId", type: Int32},
-        winners: Array(Winner),
-        c:       Int32,
-        sent:    Time,
+        type:        String,
+        show_id:     {key: "showId", type: Int32},
+        winners:     Array(Winner),
+        num_winners: {key: "numWinners", type: Int32},
+        c:           Int32,
+        sent:        Time,
       })
 
       # Winner information
