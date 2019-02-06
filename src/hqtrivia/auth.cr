@@ -23,7 +23,7 @@ module HqTrivia
 
     private def header_others(country)
       HTTP::Headers{
-        "Authorization"    => "Bearer #{token(country)}",
+        "Authorization" => "Bearer #{token(country)}",
       }
     end
 
