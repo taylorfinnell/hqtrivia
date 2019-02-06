@@ -26,6 +26,8 @@ class WordsBot
   getter reveals
   getter num_winners
 
+  @num_winners : Int32?
+
   def initialize(@show : HqTrivia::Model::Show, @coordinator : HqTrivia::Coordinator)
     super
     @round_starts = 0
