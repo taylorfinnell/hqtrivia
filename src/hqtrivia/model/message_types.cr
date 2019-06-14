@@ -6,7 +6,8 @@ module HqTrivia
     class MessageTypes
       # :nodoc:
       MESSAGE_LIST = %w(broadcastEnded broadcastStats gameSummary interaction postGame question
-        questionClosed questionFinished questionSummary kicked endRound hideWheel letterReveal showWheel startRound wordsGameResult)
+        questionClosed questionFinished questionSummary kicked endRound hideWheel letterReveal showWheel startRound wordsGameResult
+        surveyQuestion surveyResults checkpoint checkpointSummary)
     end
   end
 end

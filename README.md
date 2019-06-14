@@ -51,6 +51,8 @@ end
 - `HqTriva::Model::QuestionSummary`
 - `HqTriva::Model::QuestionFinished`
 - `HqTriva::Model::GameSummary`
+- `HqTriva::Model::SurveyQuestion`
+- `HqTriva::Model::SurveyResults`
 
 **HQ Words Messaegs**
 
