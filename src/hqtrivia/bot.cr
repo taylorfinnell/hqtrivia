@@ -3,22 +3,39 @@ require "./model/message_types"
 module HqTrivia
   # The HqTrivia bot, given a connection it has call backs for messages received
   module Bot
-    def initialize(@show : HqTrivia::Model::Show, @coordinator : Coordinator)
+    @connection : HqTrivia::Connection::Interface?
+
+    @show : Model::Show
+
+    def initialize(@coordinator : Coordinator)
+      @show = @coordinator.current_show
     end
 
     # Play the game on the given *connection*
-    def play(connection = HqTrivia::Connection::Hq.new)
+    def play(connection : HqTrivia::Connection::Interface)
       HqTrivia.logger.debug("Bot playing #{@coordinator.country} show #{@show.to_json}")
 
-      connection.on_message do |message|
+      @connection = connection
+
+      @connection.not_nil!.on_message do |message|
         handle_message(message)
       end
 
-      connection.on_raw_message do |json|
+      @connection.not_nil!.on_raw_message do |json|
         handle_message(json)
       end
 
-      connection.connect(@show, @coordinator)
+      @connection.not_nil!.on_client_ping do |message|
+        on_client_ping(message)
+      end
+
+      @connection.not_nil!.on_server_pong do |message|
+        on_server_pong(message)
+      end
+
+      @connection.not_nil!.connect(@coordinator)
+
+      @connection.not_nil!.run
     end
 
     # The start time of the current show, nil if no show is going
@@ -44,6 +61,18 @@ module HqTrivia
     # The country that is playing this game
     def country
       @coordinator.country
+    end
+
+    private def send_message(message : String)
+      @connection.not_nil!.send_message(message)
+    end
+
+    protected def on_client_ping(message : String)
+      HqTrivia.logger.debug("Client sent PING with '#{message}'")
+    end
+
+    protected def on_server_pong(message : String)
+      HqTrivia.logger.debug("Server sent PONG with '#{message}'")
     end
 
     {% for msg, index in Model::MessageTypes.constant("MESSAGE_LIST") %}
