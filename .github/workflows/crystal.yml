@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - uses: crystallang/crystal
     - uses: actions/checkout@v1
     - name: Install dependencies
       run: shards install
