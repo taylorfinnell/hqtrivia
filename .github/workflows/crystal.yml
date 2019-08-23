@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v1
     - name: Install dependencies
       run: shards install
-      uses: docker://crystallang/crystal
+      uses: docker://hub.docker.com/r/crystallang/crystal/tags
     - name: Run tests
       run: crystal spec
-      uses: docker://crystallang/crystal
+      uses: docker://hub.docker.com/r/crystallang/crystal/tags
