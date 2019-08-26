@@ -9,14 +9,14 @@ module HqTrivia
     class NotAuthenticatedError < Exception
     end
 
-    # Current HQ show, or nil
+    # Current HQ show, or raises if authentication error or http error
     def current_show
       connection_failed = ->(ex : Exception) do
         HqTrivia.logger.debug("#{self.class.name}: Connection to HQ (#{@country}) server failed...retrying. #{ex}")
       end
 
       retryable(on: HttpException | Socket::Error, tries: 5, wait: 1, callback: connection_failed) do
-        resp = HTTP::Client.get("https://api-quiz.hype.space/shows/now?type=#{final_game_type}", headers: HqTrivia.auth.header(@country))
+        resp = HTTP::Client.get("https://api-quiz.hype.space/shows/now?type=#{final_game_type}", headers: HqTrivia.auth.headers(@country))
 
         HqTrivia.logger.debug("#{self.class.name} http response for #{@country}: #{resp.body}")
 

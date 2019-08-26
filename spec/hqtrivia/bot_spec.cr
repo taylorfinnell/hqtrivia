@@ -5,10 +5,7 @@ class MyBot
 
   getter words
 
-  def initialize(@show : HqTrivia::Model::Show, @coordinator : HqTrivia::Coordinator)
-    super
-    @words = {} of String => Int32
-  end
+  @words = {} of String => Int32
 
   def handle_message(message : HqTrivia::Model::Interaction)
     message.metadata.message.split(/\s/).each do |word|
@@ -26,15 +23,10 @@ class WordsBot
   getter reveals
   getter num_winners
 
-  @num_winners : Int32?
-
-  def initialize(@show : HqTrivia::Model::Show, @coordinator : HqTrivia::Coordinator)
-    super
-    @round_starts = 0
-    @round_ends = 0
-    @reveals = 0
-    @num_winners = 0
-  end
+  @round_starts = 0
+  @round_ends = 0
+  @reveals = 0
+  @num_winners : Int32? = 0
 
   def handle_message(message : HqTrivia::Model::StartRound)
     @round_starts += 1
@@ -58,9 +50,11 @@ module HqTrivia
     it "works" do
       messages = File.read("./spec/data/new_messages").each_line.to_a
       show = Model::Show.new(active: true, show_type: "hq-us", prize: 100, show_id: 666, start_time: Time.now)
+      coordinator = LocalCoordinator.new("us")
+      coordinator.show = show
       connection = Connection::Local.new(messages)
 
-      bot = MyBot.new(show, LocalCoordinator.new("us"))
+      bot = MyBot.new(coordinator)
       bot.play(connection)
 
       bot.words.values.max.should eq(70)
@@ -73,9 +67,11 @@ module HqTrivia
     it "works with words" do
       messages = File.read("./spec/data/words").each_line.to_a
       show = Model::Show.new(active: true, show_type: "hq-us", game_type: "words", prize: 100, show_id: 666, start_time: Time.now)
+      coordinator = LocalCoordinator.new("us")
+      coordinator.show = show
       connection = Connection::Local.new(messages)
 
-      bot = WordsBot.new(show, LocalCoordinator.new("us"))
+      bot = WordsBot.new(coordinator)
       bot.play(connection)
 
       bot.reveals.should eq(20)

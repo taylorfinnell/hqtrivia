@@ -23,11 +23,7 @@ class WordFrequencyBot
   include HqTrivia::Bot
 
   getter words
-
-  def initialize(@show : HqTrivia::Model::Show, @coordinator : HqTrivia::Coordinator)
-    super
-    @words = {} of String => Int32
-  end
+  @words = {} of String => Int32
 
   def handle_message(message : HqTrivia::Model::Interaction)
     message.metadata.message.split(/\s/).each do |word|
@@ -39,7 +35,7 @@ end
 
 coordinator = HqTrivia::HqCoordinator.new("us")
 HqTrivia.on_show(coordinator) do |show|
-  bot = WordFrequencyBot.new(show, coordinator)
+  bot = WordFrequencyBot.new(coordinator)
 
   bot.play
 end
@@ -53,6 +49,8 @@ end
 - `HqTriva::Model::GameSummary`
 - `HqTriva::Model::SurveyQuestion`
 - `HqTriva::Model::SurveyResults`
+- `HqTriva::Model::Checkpoint`
+- `HqTriva::Model::CheckpointSummary`
 
 **HQ Words Messaegs**
 

@@ -29,7 +29,8 @@ module HqTrivia
     # Broadcast information for a show
     class Broadcast
       JSON.mapping({
-        socket_url: {type: String, key: "socketUrl"},
+        socket_url:   {type: String, key: "socketUrl"},
+        broadcast_id: {type: Int32, key: "broadcastId"},
       })
     end
   end
