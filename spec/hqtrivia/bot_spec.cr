@@ -49,7 +49,7 @@ module HqTrivia
   describe Bot do
     it "works" do
       messages = File.read("./spec/data/new_messages").each_line.to_a
-      show = Model::Show.new(active: true, show_type: "hq-us", prize: 100, show_id: 666, start_time: Time.now)
+      show = Model::Show.new(active: true, show_type: "hq-us", prize: 100, show_id: 666, start_time: Time.local)
       coordinator = LocalCoordinator.new("us")
       coordinator.show = show
       connection = Connection::Local.new(messages)
@@ -66,7 +66,7 @@ module HqTrivia
 
     it "works with words" do
       messages = File.read("./spec/data/words").each_line.to_a
-      show = Model::Show.new(active: true, show_type: "hq-us", game_type: "words", prize: 100, show_id: 666, start_time: Time.now)
+      show = Model::Show.new(active: true, show_type: "hq-us", game_type: "words", prize: 100, show_id: 666, start_time: Time.local)
       coordinator = LocalCoordinator.new("us")
       coordinator.show = show
       connection = Connection::Local.new(messages)

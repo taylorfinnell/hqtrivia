@@ -17,7 +17,7 @@ module HqTrivia
             Model::{{msg.camelcase.id}}.from_json({{json}})
           {% end %}
           else
-            Model::UnknownMessage.new({{json}}, Time.utc_now)
+            Model::UnknownMessage.new({{json}}, Time.utc)
           end
         rescue jme : JSON::MappingError
           HqTrivia.logger.error("Failed to parse json: #{{{json}}}")
