@@ -8,6 +8,8 @@ module HqTrivia
   # :nodoc:
   @@AUTH = Auth.new
 
+  @@CONFIG = Config.new
+
   # HqTrivia logging instance
   def self.logger
     @@LOGGER
@@ -21,6 +23,14 @@ module HqTrivia
   # Auth singleton
   def self.auth
     @@AUTH
+  end
+
+  def self.config
+    @@CONFIG
+  end
+
+  def self.configure
+    yield config
   end
 
   # When an active `Show` is seen, it's yielded to the block

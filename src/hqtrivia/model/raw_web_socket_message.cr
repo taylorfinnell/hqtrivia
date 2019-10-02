@@ -20,8 +20,12 @@ module HqTrivia
             Model::UnknownMessage.new({{json}}, Time.utc)
           end
         rescue jme : JSON::MappingError
-          HqTrivia.logger.error("Failed to parse json: #{{{json}}}")
-          raise jme
+          if jme.message =~ /Missing JSON attribute: type/ && HqTrivia.config.supress_missing_type_attribute_json_errors
+            Model::UnknownMessage.new({{json}}, Time.utc)
+          else
+            HqTrivia.logger.error("Failed to parse json: #{{{json}}}")
+            raise jme
+          end
         end
       end
     end
