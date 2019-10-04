@@ -5,7 +5,7 @@ module HqTrivia::Model
     it "raises if if type is missing in thhe json and supress_missing_type_attribute_json_errors is false" do
       json = {"blah" => 1}.to_json
 
-      expect_raises(JSON::MappingError, /Missing JSON attribute: type/) do
+      expect_raises(RawWebSocketMessage::JSONParseError, /Could not parse '{"blah":1}'/) do
         RawWebSocketMessage.decode(json)
       end
     end
@@ -24,6 +24,12 @@ module HqTrivia::Model
     ensure
       HqTrivia.configure do |config|
         config.supress_missing_type_attribute_json_errors = false
+      end
+    end
+
+    it "errors on invalid json" do
+      expect_raises(RawWebSocketMessage::JSONParseError, /Could not parse '{a:}'/) do
+        msg = RawWebSocketMessage.decode("{a:}")
       end
     end
   end
