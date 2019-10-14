@@ -6,6 +6,15 @@ module HqTrivia
     class Question
       include WebSocketMessage
 
+      class QuestionMedia
+        JSON.mapping({
+          key:          String,
+          media_id:     {key: "mediaId", type: String},
+          type:         {key: "type", type: String},
+          content_type: {key: "contentType", type: String},
+        })
+      end
+
       JSON.mapping({
         type:            String,
         ts:              Time,
@@ -18,6 +27,7 @@ module HqTrivia
         question_number: {key: "questionNumber", type: Int32},
         question_count:  {key: "questionCount", type: Int32},
         ask_time:        {key: "askTime", type: Time},
+        question_media:  {key: "questionMedia", type: QuestionMedia?},
         c:               Int32,
         sent:            Time,
       })
