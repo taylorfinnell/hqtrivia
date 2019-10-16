@@ -8,21 +8,36 @@ module HqTrivia
 
     # Given a *country* it returns the required headers
     def headers(country)
-      HTTP::Headers{
+      headers = HTTP::Headers{
         "Authorization"    => "Bearer #{token(country)}",
         "x-hq-device"      => "iPhone10,4",
-        "x-hq-client"      => "iOS/1.5.1 b157",
         "accept-language"  => "en-us",
         "x-hq-stk"         => "MQ==",
         "x-hq-deviceclass" => "phone",
         "x-hq-timezone"    => "America/Chicago",
-        "user-agent"       => "HQ-iOS/157 CFNetwork/987.0.7 Darwin/18.7.0",
         "x-hq-country"     => country,
         "x-hq-lang"        => "en",
         "Host"             => "api-quiz.hype.space",
         "Connection"       => "Keep-Alive",
         # "Accept-Encoding"  => "gzip",
       }
+
+      if build_number && version_number
+        headers.merge!({
+          "x-hq-client"      => "iOS/#{version_number} b#{build_number}",
+          "user-agent"       => "HQ-iOS/#{build_number} CFNetwork/987.0.7 Darwin/18.7.0"
+        })
+      end
+
+      headers
+    end
+
+    private def build_number
+      HqTrivia.config.hq_build_number
+    end
+
+    private def version_number
+      HqTrivia.config.hq_version_number
     end
   end
 end
