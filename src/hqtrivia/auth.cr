@@ -24,12 +24,20 @@ module HqTrivia
 
       if build_number && version_number
         headers.merge!({
-          "x-hq-client"      => "iOS/#{version_number} b#{build_number}",
-          "user-agent"       => "HQ-iOS/#{build_number} CFNetwork/987.0.7 Darwin/18.7.0"
+          "x-hq-client" => "iOS/#{version_number} b#{build_number}",
+          "user-agent"  => "HQ-iOS/#{build_number} CFNetwork/987.0.7 Darwin/18.7.0",
         })
       end
 
+      unless custom_headers.empty?
+        headers.merge!(custom_headers)
+      end
+
       headers
+    end
+
+    private def custom_headers
+      HqTrivia.config.custom_headers
     end
 
     private def build_number

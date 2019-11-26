@@ -32,5 +32,19 @@ module HqTrivia::Model
         msg = RawWebSocketMessage.decode("{a:}")
       end
     end
+
+    it "can decode message types with dashes" do
+      json = {
+        "type"    => "heart-episode-winners",
+        "sent"    => Time.local,
+        "winners" => [] of Model::HeartEpisodeWinners::Winner,
+        "c"       => 1,
+        "ts"      => Time.local,
+      }.to_json
+
+      msg = RawWebSocketMessage.decode(json)
+
+      msg.should be_a(Model::HeartEpisodeWinners)
+    end
   end
 end
