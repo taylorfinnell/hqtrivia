@@ -35,7 +35,13 @@ module HqTrivia
       when nil, "trivia"
         "hq"
       when "words"
-        "hq-words"
+        "words"
+      when "jokes"
+        "jokes"
+      when "heart"
+        "heart"
+      when ""
+        ""
       else
         raise "Invalid game type: #{@game_type}"
       end

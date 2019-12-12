@@ -17,7 +17,7 @@ module HqTrivia
           case decoded.type
             {% for msg, index in Model::MessageTypes.constant("MESSAGE_LIST") %}
             when {{msg}}
-              Model::{{msg.camelcase.id}}.from_json({{json}})
+              Model::{{msg.gsub(/\-/, "_").camelcase.id}}.from_json({{json}})
             {% end %}
           else
             Model::UnknownMessage.new({{json}}, Time.utc)
@@ -25,13 +25,17 @@ module HqTrivia
         rescue jme : JSON::MappingError
           if jme.message =~ /Missing JSON attribute: type/
             if !HqTrivia.config.supress_missing_type_attribute_json_errors
-              raise HqTrivia::Model::RawWebSocketMessage::JSONParseError.new("Could not parse '#{{{json}}}'")
+              raise HqTrivia::Model::RawWebSocketMessage::JSONParseError.new("Could not parse '#{{{json}}}'. #{jme.message}")
             end
+          elsif jme.message =~ /Missing JSON attribute/
+            raise HqTrivia::Model::RawWebSocketMessage::JSONParseError.new("Could not parse '#{{{json}}}'. #{jme.message}")
+          elsif jme.message =~ /was Null/
+            raise HqTrivia::Model::RawWebSocketMessage::JSONParseError.new("Could not parse '#{{{json}}}'. #{jme.message}")
           end
 
           Model::UnknownMessage.new({{json}}, Time.utc)
         rescue jpe : JSON::ParseException
-          raise HqTrivia::Model::RawWebSocketMessage::JSONParseError.new("Could not parse '#{{{json}}}'")
+          raise HqTrivia::Model::RawWebSocketMessage::JSONParseError.new("Could not parse '#{{{json}}}'. #{jpe.message}")
         end
       end
     end

@@ -41,7 +41,7 @@ HqTrivia.on_show(coordinator) do |show|
 end
 ```
 
-**HQ Trivia Messagges**
+**HQ Trivia Messages**
 
 - `HqTriva::Model::Question`
 - `HqTriva::Model::QuestionSummary`
@@ -52,13 +52,25 @@ end
 - `HqTriva::Model::Checkpoint`
 - `HqTriva::Model::CheckpointSummary`
 
-**HQ Words Messaegs**
+**HQ Words Messages**
 
 - `HqTriva::Model::ShowWheel`
 - `HqTriva::Model::HideWheel`
 - `HqTriva::Model::StartRound`
 - `HqTriva::Model::EndRound`
 - `HqTriva::Model::WordsGameResult`
+
+**HQ Heart Messages**
+
+- `HeartEpisodeWinners`
+- `HeartFinalistIntro`
+- `HeartFinalistUploadStatus`
+- `HeartFinalistUploadUpdate`
+- `HeartFinalistVote`
+- `HeartFinalistWalkthrough`
+- `HeartPhotoResults`
+- `HeartPhotoUpload`
+- `HeartPhotoVote`
 
 **Shared Messages**
 

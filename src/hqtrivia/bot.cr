@@ -76,7 +76,7 @@ module HqTrivia
     end
 
     {% for msg, index in Model::MessageTypes.constant("MESSAGE_LIST") %}
-      protected def handle_message(message : Model::{{msg.camelcase.id}})
+      protected def handle_message(message : Model::{{msg.gsub(/\-/, "_").camelcase.id}})
       end
     {% end %}
 
