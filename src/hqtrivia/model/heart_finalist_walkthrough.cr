@@ -9,7 +9,7 @@ module HqTrivia
         c:         Int32,
         sent:      Time,
         category:  String,
-        photo_url: {type: String, key: "photoUrl"},
+        photo_url: {type: String?, key: "photoUrl"},
         finalist:  {type: UserProfile, key: "finalistProfile"},
       })
     end
