@@ -1,9 +1,9 @@
-require "logger"
+require "log"
 
 module HqTrivia
   # A Logger class that supports setting log level from the environment.
   class Logger
-    def initialize(@logger : ::Logger = ::Logger.new(STDOUT))
+    def initialize(@logger : ::Log = ::Log.for("hqtrivia"))
       @logger.level = log_level
     end
 
@@ -16,24 +16,38 @@ module HqTrivia
     private def log_level
       case ENV["LOG_LEVEL"]?.to_s.upcase
       when "DEBUG"
-        ::Logger::Severity::DEBUG
+        ::Log::Severity::Debug
       when "INFO"
-        ::Logger::Severity::INFO
+        ::Log::Severity::Info
       when "WARN"
-        ::Logger::Severity::WARN
+        ::Log::Severity::Warn
       when "ERROR"
-        ::Logger::Severity::ERROR
+        ::Log::Severity::Error
       when "FATAL"
-        ::Logger::Severity::FATAL
+        ::Log::Severity::Fatal
       else
-        ::Logger::Severity::INFO
+        ::Log::Severity::Info
       end
     end
 
-    delegate debug, to: @logger
-    delegate info, to: @logger
-    delegate warn, to: @logger
-    delegate error, to: @logger
-    delegate fatal, to: @logger
+    def debug(msg)
+      @logger.debug { msg }
+    end
+
+    def info(msg)
+      @logger.info { msg }
+    end
+
+    def warn(msg)
+      @logger.warn { msg }
+    end
+
+    def error(msg)
+      @logger.error { msg }
+    end
+
+    def fatal(msg)
+      @logger.fatal { msg }
+    end
   end
 end

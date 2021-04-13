@@ -1,13 +1,15 @@
 name: hqtrivia
-version: 0.7.0
+version: 0.7.1
 
 authors:
   - Taylor Finnell <tmfinnell@gmail.com>
 
-crystal: 0.32.0
+crystal: ">= 0.32.0"
 
 license: MIT
 
 dependencies:
   retrycr:
     github: taylorfinnell/retrycr
+  json_mapping:
+    github: crystal-lang/json_mapping.cr

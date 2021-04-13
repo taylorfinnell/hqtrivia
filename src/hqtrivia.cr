@@ -1,3 +1,4 @@
+require "json_mapping"
 require "./hqtrivia/*"
 
 # Framework for creating HQ Trivia and HQ Words bots
